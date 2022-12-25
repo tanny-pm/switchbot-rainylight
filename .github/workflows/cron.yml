@@ -27,4 +27,4 @@ jobs:
           SWITCHBOT_DEVICE_ID: ${{ secrets.SWITCHBOT_DEVICE_ID }}
           WEATHER_CITY_CODE: ${{ secrets.WEATHER_CITY_CODE }}
         run: |
-          python -m switch_forecast
+          python -m rainylight
