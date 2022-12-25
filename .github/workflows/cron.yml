@@ -1,5 +1,6 @@
 name: run_script
 on:
+  push:
   schedule:
     - cron: '0 22 * * *'
 
