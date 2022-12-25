@@ -1,4 +1,4 @@
-from rainylight.rainylight import main
+from .rainylight import main
 
 if __name__ == "__main__":
     main()
