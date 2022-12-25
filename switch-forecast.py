@@ -7,7 +7,7 @@ import os
 import re
 import time
 
-import requests  # type: ignore
+import requests
 from dotenv import load_dotenv
 
 formatter = "[%(levelname)-8s] %(asctime)s %(name)-12s %(message)s"
