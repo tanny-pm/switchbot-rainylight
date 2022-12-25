@@ -41,15 +41,11 @@ def get_pm_rainy_percent(city_code: str = CITY_CODE):
         weather_json = r.json()
         logger.info(weather_json["forecasts"][0]["chanceOfRain"])  # 0:今日 1:明日 2:明後日
 
-        chance_12 = int(
-            re.sub("\\D", "", weather_json["forecasts"][0]["chanceOfRain"]["T12_18"])
-            or 0
-        )
-        chance_18 = int(
-            re.sub("\\D", "", weather_json["forecasts"][0]["chanceOfRain"]["T18_24"])
-            or 0
-        )
-        return max(chance_12, chance_18)
+        rain = weather_json["forecasts"][0]["chanceOfRain"]
+        rain_12 = int(re.sub("\\D", "", rain["T12_18"]) or 0)
+        rain_18 = int(re.sub("\\D", "", rain["T18_24"]) or 0)
+
+        return max(rain_12, rain_18)
 
 
 def generate_sign(token: str, secret: str, nonce: str = "") -> tuple[str, str, str]:
@@ -115,6 +111,7 @@ def main():
     """降水確率に基づいてカラーライトの色を変更する"""
 
     rain = get_pm_rainy_percent()
+    logger.info(rain)
 
     if rain == 0:
         turn_on_light(DEVICE_ID, (255, 127, 0))
