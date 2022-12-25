@@ -21,5 +21,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run script
+        env:
+          SWITCHBOT_ACCESS_TOKEN: ${{ secrets.SWITCHBOT_ACCESS_TOKEN }}
+          SWITCHBOT_SECRET: ${{ secrets.SWITCHBOT_SECRET }}
+          SWITCHBOT_DEVICE_ID: ${{ secrets.SWITCHBOT_DEVICE_ID }}
+          WEATHER_CITY_CODE: ${{ secrets.WEATHER_CITY_CODE }}
         run: |
           python -m switch-forecast
