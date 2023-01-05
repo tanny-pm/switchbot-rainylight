@@ -25,18 +25,16 @@ API_BASE_URL = "https://api.switch-bot.com"
 WEATHER_URL = "https://weather.tsukumijima.net/api/forecast/city"
 
 
-def get_pm_rainy_percent(city_code: str = CITY_CODE):
+def get_pm_rainy_percent(city_code: str = CITY_CODE) -> int:
     """指定した地点の降水確率を取得する"""
 
     try:
-        url = f"{WEATHER_URL}/{CITY_CODE}"
+        url = f"{WEATHER_URL}/{city_code}"
         r = requests.get(url)
-        r.raise_for_status()  # ステータスコード200番台以外は例外とする
-        logger.info(r.status_code)
+        # status 2xx以外は例外とする
+        r.raise_for_status()
     except requests.exceptions.RequestException as e:
-        # print("Error:{}".format(e))
         logger.error(e)
-
     else:
         weather_json = r.json()
         logger.info(weather_json["forecasts"][0]["chanceOfRain"])  # 0:今日 1:明日 2:明後日
@@ -45,7 +43,7 @@ def get_pm_rainy_percent(city_code: str = CITY_CODE):
         rain_12 = int(re.sub("\\D", "", rain["T12_18"]) or 0)
         rain_18 = int(re.sub("\\D", "", rain["T18_24"]) or 0)
 
-        return max(rain_12, rain_18)
+    return max(rain_12, rain_18)
 
 
 def generate_sign(token: str, secret: str, nonce: str = "") -> tuple[str, str, str]:
