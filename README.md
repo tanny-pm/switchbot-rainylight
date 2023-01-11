@@ -1,4 +1,4 @@
-# switch-forecast
+# switchnot-rainylight
 
 【SwitchBot】雨が降りそうなときに廊下ライトの色を変えてお知らせする機能を作る
 
