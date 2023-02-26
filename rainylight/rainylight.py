@@ -35,13 +35,16 @@ def get_pm_rainy_percent(city_code: str) -> int:
         r.raise_for_status()
     except requests.exceptions.RequestException as e:
         logger.error(e)
-    else:
-        weather_json = r.json()
-        logger.info(weather_json["forecasts"][0]["chanceOfRain"])  # 0:今日 1:明日 2:明後日
+        return 0
 
-        rain = weather_json["forecasts"][0]["chanceOfRain"]
-        rain_12 = int(re.sub("\\D", "", rain["T12_18"]) or 0)
-        rain_18 = int(re.sub("\\D", "", rain["T18_24"]) or 0)
+    weather_json = r.json()
+    # forecasts 0:今日 1:明日 2:明後日
+    rain = weather_json["forecasts"][0]["chanceOfRain"]
+    logger.info(f"Chance of rain: {rain}")
+
+    # 降水確率の「%」部分を除去する
+    rain_12 = int(re.sub("\\D", "", rain["T12_18"]) or 0)
+    rain_18 = int(re.sub("\\D", "", rain["T18_24"]) or 0)
 
     return max(rain_12, rain_18)
 
