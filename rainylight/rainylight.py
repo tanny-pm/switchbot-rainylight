@@ -25,7 +25,7 @@ API_BASE_URL = "https://api.switch-bot.com"
 WEATHER_URL = "https://weather.tsukumijima.net/api/forecast/city"
 
 
-def get_pm_rainy_percent(city_code: str = CITY_CODE) -> int:
+def get_pm_rainy_percent(city_code: str) -> int:
     """指定した地点の降水確率を取得する"""
 
     try:
@@ -108,7 +108,7 @@ def turn_on_light(
 def main():
     """降水確率に基づいてカラーライトの色を変更する"""
 
-    rain = get_pm_rainy_percent()
+    rain = get_pm_rainy_percent(CITY_CODE)
     logger.info(rain)
 
     if rain == 0:
