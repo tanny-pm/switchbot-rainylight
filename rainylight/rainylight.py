@@ -10,10 +10,12 @@ import time
 import requests
 from dotenv import load_dotenv
 
+# Logging
 formatter = "[%(levelname)-8s] %(asctime)s %(name)-12s %(message)s"
 logging.basicConfig(level=logging.INFO, format=formatter)
 logger = logging.getLogger(__name__)
 
+# Env
 load_dotenv(".env")
 
 ACCESS_TOKEN = os.environ["SWITCHBOT_ACCESS_TOKEN"]
