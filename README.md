@@ -25,6 +25,12 @@ pip
 $ pip install -r requirements.txt
 ```
 
+- デバイスIDを取得する。
+
+```sh
+$ python rainylight/get_device_list.py
+```
+
 - モジュールを実行する。
 
 ```sh
@@ -34,12 +40,15 @@ $ python -m rainylight
 ## References
 
 - SwitchBot API v1.1
+
   - https://github.com/OpenWonderLabs/SwitchBotAPI
 
 - GitHubActions で定期実行
+
   - https://qiita.com/cardene/items/67d31f13d27865a12ecf
 
 - AWS Lambda から SwitchBot を操作する
+
   - https://zenn.dev/daumkuchen/articles/81aef4bc686b8b
 
 - 天気予報を取得する
