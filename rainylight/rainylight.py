@@ -49,18 +49,18 @@ def get_pm_rainy_percent(city_code: str) -> int:
     return max(rain_12, rain_18)
 
 
-def generate_sign(token: str, secret: str, nonce: str = "") -> tuple[str, str, str]:
+def generate_sign(token: str, secret: str, nonce: str) -> tuple[str, str]:
     """SWITCH BOT APIの認証キーを生成する"""
 
     t = int(round(time.time() * 1000))
     string_to_sign = "{}{}{}".format(token, t, nonce)
-    string_to_sign = bytes(string_to_sign, "utf-8")
-    secret = bytes(secret, "utf-8")
+    string_to_sign_b = bytes(string_to_sign, "utf-8")
+    secret_b = bytes(secret, "utf-8")
     sign = base64.b64encode(
-        hmac.new(secret, msg=string_to_sign, digestmod=hashlib.sha256).digest()
+        hmac.new(secret_b, msg=string_to_sign_b, digestmod=hashlib.sha256).digest()
     )
 
-    return (str(t), str(sign, "utf-8"), nonce)
+    return (str(t), str(sign, "utf-8"))
 
 
 def post_command(
@@ -68,10 +68,11 @@ def post_command(
     command: str,
     parameter: str = "default",
     command_type: str = "command",
-):
+) -> requests.Response:
     """指定したデバイスにコマンドを送信する"""
 
-    t, sign, nonce = generate_sign(ACCESS_TOKEN, SECRET)
+    nonce = "zzz"
+    t, sign = generate_sign(ACCESS_TOKEN, SECRET, nonce)
     headers = {
         "Content-Type": "application/json; charset: utf8",
         "Authorization": ACCESS_TOKEN,
@@ -80,14 +81,13 @@ def post_command(
         "nonce": nonce,
     }
     url = f"{API_BASE_URL}/v1.1/devices/{device_id}/commands"
-    body = {"command": command, "parameter": parameter, "commandType": command_type}
-    data = json.dumps(body)
-
+    data = json.dumps(
+        {"command": command, "parameter": parameter, "commandType": command_type}
+    )
     try:
-        logger.info(data)
+        logger.info(f"Post command: {data}")
         r = requests.post(url, data=data, headers=headers)
-        logger.info(r.text)
-
+        logger.info(f"Responce: {r.text}")
     except requests.exceptions.RequestException as e:
         logger.error(e)
 
@@ -108,14 +108,13 @@ def turn_on_light(
     post_command(device_id, "turnOn")
 
 
-def main():
+def main() -> bool:
     """降水確率に基づいてカラーライトの色を変更する"""
 
     rain = get_pm_rainy_percent(CITY_CODE)
-    logger.info(rain)
 
     if rain == 0:
-        turn_on_light(DEVICE_ID, (255, 127, 0))
+        turn_on_light(DEVICE_ID, (255, 127, 0))  # Yellow
     elif rain <= 20:
         turn_on_light(DEVICE_ID, (255, 255, 0))
     elif rain <= 40:
@@ -125,7 +124,7 @@ def main():
     elif rain <= 80:
         turn_on_light(DEVICE_ID, (0, 127, 255))
     else:
-        turn_on_light(DEVICE_ID, (0, 0, 255))
+        turn_on_light(DEVICE_ID, (0, 0, 255))  # Blue
 
     return True
 
