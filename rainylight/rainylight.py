@@ -11,7 +11,7 @@ import requests
 from dotenv import load_dotenv
 
 # Logging
-formatter = "[%(levelname)-8s] %(asctime)s %(name)-12s %(message)s"
+formatter = "[%(levelname)-8s] %(asctime)s %(funcName)s %(message)s"
 logging.basicConfig(level=logging.INFO, format=formatter)
 logger = logging.getLogger(__name__)
 
