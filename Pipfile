@@ -12,6 +12,7 @@ flake8 = "*"
 black = "*"
 isort = "*"
 mypy = "*"
+types-requests = "*"
 
 [requires]
 python_version = "3.9"
