@@ -113,20 +113,22 @@ def turn_on_light(
 def main() -> bool:
     """降水確率に基づいてカラーライトの色を変更する"""
 
-    rain = get_pm_rainy_percent(CITY_CODE)
+    color_list = {
+        0: (255, 128, 0),
+        10: (210, 148, 0),
+        20: (190, 200, 0),
+        30: (170, 255, 0),
+        40: (153, 204, 255),
+        50: (102, 178, 255),
+        60: (51, 153, 255),
+        70: (0, 128, 255),
+        80: (0, 0, 255),
+        90: (0, 0, 204),
+        100: (0, 0, 153),
+    }
 
-    if rain == 0:
-        turn_on_light(DEVICE_ID, (255, 127, 0))  # Yellow
-    elif rain <= 20:
-        turn_on_light(DEVICE_ID, (255, 255, 0))
-    elif rain <= 40:
-        turn_on_light(DEVICE_ID, (127, 255, 0))
-    elif rain <= 60:
-        turn_on_light(DEVICE_ID, (0, 255, 255))
-    elif rain <= 80:
-        turn_on_light(DEVICE_ID, (0, 127, 255))
-    else:
-        turn_on_light(DEVICE_ID, (0, 0, 255))  # Blue
+    rain = get_pm_rainy_percent(CITY_CODE)
+    turn_on_light(DEVICE_ID, color_list.get(rain, (255, 0, 0)))
 
     return True
 
