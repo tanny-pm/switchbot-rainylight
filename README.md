@@ -6,7 +6,7 @@ https://zenn.dev/tanny/articles/808487545eb30f
 
 ## ローカルでの実行手順
 
-- `.env`ファイルに環境変数を登録する。
+- `.env.example`ファイルに環境変数を登録し、`.env`にリネームする。
 
 ```env:.env.example
 SWITCHBOT_ACCESS_TOKEN=
@@ -28,7 +28,7 @@ $ pip install -r requirements.txt
 - デバイスIDを取得する。
 
 ```sh
-$ python rainylight/get_device_list.py
+$ python rainylight/switchbot.py
 ```
 
 - モジュールを実行する。
