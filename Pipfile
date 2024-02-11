@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 requests = "*"
 python-dotenv = "*"
+functions-framework = "*"
 
 [dev-packages]
 flake8 = "*"
